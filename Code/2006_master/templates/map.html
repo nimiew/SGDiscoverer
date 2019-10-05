@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SG Discoverer</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <script async defer src="{{gmapsurl}}"></script>
+    <script src="scripts/map.js"></script>
+    <script src="scripts/weather.js"></script>
+    <script src="scripts/toggle.js"></script>
+    <script src="scripts/display.js"></script>
+    <script src="scripts/updatedropdown.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" style="background-color:#111;">
+    <a class="navbar-brand" href="/">SG Discoverer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#account_control" aria-controls="account_control" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="account_control" data-status="{{session['status']}}" data-food_preference="{{session['food_preference']}}" data-favourites="{{session['favourites']}}" data-username="{{session['username']}}">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#topmap">Map</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#listviewtop">List</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#demo">Weather</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="list">Deals</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+              Favourites
+            </a>
+            <div class="dropdown-menu" id="navbardrop">
+              <!--DYNAMICALLY CREATE ELEMENTS-->
+            </div>
+        </li>
+        </ul>
+        <ul class="navbar-nav" id="n1">
+        </ul>
+        <!-- <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+    </div>
+    <!--<div id="account_control" data-status="{{session['status']}}" data-food_preference="{{session['food_preference']}}" data-favourites="{{session['favourites']}}" data-username="{{session['username']}}">
+    </div>-->
+  </nav>
+
+    <script type="text/javascript">
+    var account_control = document.getElementById("account_control");
+    console.log(account_control);
+    // console.log(status);
+    // console.log(food_preference);
+    // console.log(username);
+    status = account_control.getAttribute("data-status");
+    if(status == 'connected' ){
+      var n1 = document.getElementById("n1");
+      var l1 = document.createElement("li");
+      var node = document.createElement("a");                 // Create a <li> node
+      var textnode = document.createTextNode("Logout");
+      node.className='nav-link';
+      node.setAttribute("href","{{url_for("logout")}}");
+      node.appendChild(textnode);
+      node.style.color="white";
+      l1.appendChild(node);
+      n1.appendChild(l1);
+      document.getElementById("account_control").appendChild(node);
+    }
+    else{
+      var n1 = document.getElementById("n1");
+      var l1 = document.createElement("li");
+      var node = document.createElement("a");                 // Create a <li> node
+      var textnode = document.createTextNode("Login");
+      node.setAttribute("href","{{url_for("login")}}");
+      node.appendChild(textnode);
+      node.style.color = "white";
+      node.className='nav-link';
+      l1.appendChild(node);
+      n1.appendChild(l1);
+      document.getElementById("account_control").appendChild(node);
+      var node = document.createElement("a");                 // Create a <li> node
+      var textnode = document.createTextNode("Register");
+      node.setAttribute("href","{{url_for("register")}}");
+      node.appendChild(textnode);
+      node.style.color="white";
+      node.className='nav-link';
+      l1.appendChild(node);
+      n1.appendChild(l1);
+      document.getElementById("account_control").appendChild(node);
+    }
+  </script>
+
+  <div class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+    <img class="w3-image" src="https://www.lookoutpro.com/wp-content/uploads/2018/03/iStock-830636952.jpg" alt="sgdiscoverer" width="1500" height="800" style="opacity:0.6">
+    <div class="w3-display-middle w3-margin-top w3-center">
+      <h1 class="w3-xxlarge"><span class="w3-padding w3-black w3-opacity-min"><b>SG</b></span> <span class="w3-hide-small w3-text-black">Discoverer</span></h1>
+    </div>
+  </div>
+
+    <div class="container" id="topmap">
+        <div class="row p-4"></div>
+        <div class="row p-4"></div>
+        <div class="row">
+            <div class="col">
+              <h2>Discover the places you can go in Singapore</h2>
+              <p>Don't know where to go? Enter your desired location and hit search to discover new places to explore.</p>
+            </div>
+        </div>
+    </div>
+
+  <!--  <div class="container">
+        <div class="row p-4"></div>
+          <h2>FILTER</h2>
+          <div class="w3-container">
+            <h2>Circular Buttons</h2>
+            <button class="w3-button w3-xlarge w3-circle w3-black w3-card-4"><i class="fas fa-utensils"></i><\br>Food</button>
+            <button class="w3-button w3-xlarge w3-circle w3-purple w3-card-4"><i class="fas fa-car"></i><\br>Parking</button>
+            <button class="w3-button w3-xlarge w3-circle w3-blue w3-card-4"><i class="fas fa-medkit"></i><\br>Health</button>
+            <button class="w3-button w3-xlarge w3-circle w3-teal w3-card-4"><i class="fas fa-basketball-ball"><\br>Sports</i></button>
+            <button class="w3-button w3-xlarge w3-circle w3-green w3-card-4"><i class="fas fa-graduation-cap"></i><\br>School</button>
+            <button class="w3-button w3-xlarge w3-circle w3-light-green w3-card-4"><i class="fas fa-paw"></i><\br>Pets</button>
+            <button class="w3-button w3-xlarge w3-circle w3-amble w3-card-4"><i class="fas fa-shopping-cart"></i><\br>Neccessity</button>
+            <button class="w3-button w3-xlarge w3-circle w3-deep-orange w3-card-4"><i class="fas fa-egg"></i><\br>Beauty</button>
+            <button class="w3-button w3-xlarge w3-circle w3-pink w3-card-4"><i class="fas fa-money-check-alt"></i><\br>ATM</button>
+          </div>
+    </div>-->
+
+    <!--<div class="container categorybar">
+      <a href="#Food"><i class='fas fa-utensils' style='font-size:36px'></i><br>Food</a>
+      <a href="#parking"><i class='fas fa-parking' style='font-size:36px'></i><br>Parking</a>
+      <a href="#sport"><i class='fas fa-medkit' style='font-size:36px' ></i><br>Health</a>
+      <a href="#clinics"><i class='fas fa-skating' style='font-size:36px'></i><br>Sports</a>
+      <a href="#Food"><i class='fas fa-graduation-cap' style='font-size:36px'></i><br>School</a>
+      <a href="#parking"><i class='fas fa-paw' style='font-size:36px'></i><br>Pets</a>
+      <a href="#sport"><i class='fas fa-shopping-cart'style='font-size:36px' ></i><br>Neccessity</a>
+      <a href="#clinics"><i class='fas fa-egg' style='font-size:36px'></i><br>Beauty</a>
+      <a href="#clinics"><i class='fas fa-money-check-alt' style='font-size:36px'></i><br>ATM</a>
+    </div>-->
+
+  <div class="container pb-4">
+      <div class="col"></div>
+      <div class="col text-center">
+          <div class="row text-center p-2">
+              <div class="input-group">
+                  <input type="text" class="form-control" id="searchinput" placeholder="Enter a place to discover or choose a district">
+                  <div class="input-group-append">
+                    <div class="dropdown text-right">
+                      <style>
+                        .dropdown-menu-right{
+                          height: auto;
+                          max-height: 200px;
+                          overflow-x: hidden;
+                        }
+                      </style>
+                        <button class="btn btn-outline-secondary dropdown-toggle" title='Select a district to discover' type="button" id="filterDistrict" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Select District
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <a class='dropdown-item' id='selectdistrict'>Select District</a>
+                            {% for district in all_districts %}
+                              <a class='dropdown-item' id='{{district.replace(" ","")}}'>{{district}}</a>
+                            {% endfor %}
+                        </div>
+                      </div>
+                  </div>
+                  <div class="input-group-append">
+                      <div class="dropdown text-right">
+                          <button class="btn btn-outline-secondary dropdown-toggle" title='Choose a filter' type="button" id="filterType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Select Type
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" id="food">Food</a>
+                              <a class="dropdown-item" id="parking">Parking</a>
+                              <a class="dropdown-item" id="health">Health</a>
+                              <a class="dropdown-item" id="sports">Sports</a>
+                              <a class="dropdown-item" id="school">School</a>
+                              <a class="dropdown-item" id="pet">Pet</a>
+                              <a class="dropdown-item" id="beauty">Beauty</a>
+                              <a class="dropdown-item" id="necessities">Necessities</a>
+                              <a class="dropdown-item" id="ATM">ATM</a>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="input-group-append">
+                      <div class="dropdown text-right">
+                          <button class="btn btn-outline-secondary dropdown-toggle" title='Choose maximum search radius' type="button" id="filterDistance" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Search Radius/m
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" id="200m">&lt200m</a>
+                              <a class="dropdown-item" id="400m">&lt400m</a>
+                              <a class="dropdown-item" id="600m">&lt600m</a>
+                              <a class="dropdown-item" id="800m">&lt800m</a>
+                              <a class="dropdown-item" id="1000m">&lt1000m</a>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="input-group-append">
+                      <div class="dropdown text-right">
+                          <button class="btn btn-outline-secondary dropdown-toggle" title='Choose minimum rating' type="button" id="filterRating" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              1-5 &#11088
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" id="star5">5 &#11088</a>
+                              <a class="dropdown-item" id="star4">4 &#11088</a>
+                              <a class="dropdown-item" id="star3">3 &#11088</a>
+                              <a class="dropdown-item" id="star2">2 &#11088</a>
+                              <a class="dropdown-item" id="star1">1 &#11088</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col text-center p-2">
+              <button id="search" class="col-12 btn btn-outline-secondary" type="button">Search</button>
+            </div>
+          </div>
+              <br>
+              <p id="loadtext"></p>
+          <div id="map" style="width:100%;height:450px;" ></div>
+          <form action="#">
+            <label class="container">
+              <input type="checkbox" id="weatherbox" onclick="boxclick(this,'weather')" checked="checked">Show weather conditions
+              &nbsp
+              <input type="checkbox" id="discountbox" onclick="boxclick(this,'discount')" checked="checked">Show discounts
+            </label>
+          </form>
+      </div>
+      <div class="col"></div>
+  </div>
+
+  <p hidden id="chosen"></p>
+  <p hidden id="bounds"></p>
+  <p hidden id="prevloc"></p>
+
+  <div class="container" id="listviewtop">
+      <div class="row p-4"></div>
+      <div class="row p-4"></div>
+      <div class="row">
+          <div class="col" id="addsort">
+              <h2>List of POIs</h2>
+              <p>Find the list of places and their details here after applying the search</p>
+              <p id='listviewloadtext'></p>
+          </div>
+      </div>
+  </div>
+
+  <div class='container' id='parentmaincontainer'>
+    <div class="container" id="maincontainer">
+        <div class="row" id="cardRow"></div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div id="demo" class="carousel slide" data-ride="carousel">
+    <ul class="carousel-indicators">
+      <li data-target="#demo" data-slide-to="0" class="active"></li>
+      <li data-target="#demo" data-slide-to="1"></li>
+      <li data-target="#demo" data-slide-to="2"></li>
+      <li data-target="#demo" data-slide-to="3"></li>
+      <li data-target="#demo" data-slide-to="4"></li>
+    </ul>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="container-fluid container-weather bg-1 text-center" >
+          <h3>Hourly Weather Forecast</h3>
+          <p>Don't forget to check the weather before you go.</p>
+          <br>
+          <br>
+          <table class="center">
+            <tr id=w1>
+            </tr>
+            <tr id=w2>
+            </tr>
+          </table>
+          <br>
+          <br>
+          <a href="#topmap" class="btn btn-info" onclick="show('weather')">Show on map</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="container-fluid container-weather bg-2 text-center">
+          <h3>Hourly Weather Forecast</h3>
+          <p>Don't forget to check the weather before you go.</p>
+          <br>
+          <br>
+          <table class="center">
+            <tr id=w3>
+            </tr>
+            <tr id=w4>
+            </tr>
+          </table>
+          <br>
+          <br>
+          <a href="#topmap" class="btn btn-info" onclick="show('weather')">Show on map</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="container-fluid container-weather bg-3 text-center">
+          <h3>Hourly Weather Forecast</h3>
+          <p>Don't forget to check the weather before you go.</p>
+          <br>
+          <br>
+          <table class="center">
+            <tr id=w5>
+            </tr>
+            <tr id=w6>
+            </tr>
+          </table>
+          <br>
+          <br>
+          <a href="#topmap" class="btn btn-info" onclick="show('weather')">Show on map</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="container-fluid container-weather bg-4 text-center">
+          <h3>Hourly Weather Forecast</h3>
+          <p>Don't forget to check the weather before you go.</p>
+          <br>
+          <br>
+          <table class="center">
+            <tr id=w7>
+            </tr>
+            <tr id=w8>
+            </tr>
+          </table>
+          <br>
+          <br>
+          <a href="#topmap" class="btn btn-info" onclick="show('weather')">Show on map</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="container-fluid container-weather bg-5 text-center">
+          <h3>Hourly Weather Forecast</h3>
+          <p>Don't forget to check the weather before you go.</p>
+          <br>
+          <br>
+          <table class="center">
+            <tr id=w9>
+            </tr>
+            <tr id=w10>
+            </tr>
+          </table>
+          <br>
+          <br>
+          <a href="#topmap" class="btn btn-info" onclick="show('weather')">Show on map</a>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#demo" data-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </a>
+  </div>
+
+  <footer class="page-footer font-small text-center">
+      <a href="#" title="To Top">
+        <span class="fas fa-angle-up"></span>
+      </a>
+      <div class="footer-copyright text-center py-3"> © 2019 SG Discoverer
+      </div>
+  </footer>
+
+</body>
+
+<script>
+
+</script>
+</html>

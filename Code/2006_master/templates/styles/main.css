@@ -1,0 +1,134 @@
+.navbar li a, .navbar .navbar-brand {
+  color: #fff !important;
+}
+
+.navbar-nav li a:hover, .navbar-nav li.active a {
+  color: black !important;
+  background-color: #fff !important;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+  color: #fff !important;
+}
+
+
+
+footer .fas {
+  font-size: 20px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+
+table.center{
+  margin-left:auto;
+  margin-right:auto;
+  border-collapse: collapse;
+}
+td{
+  font-size: 11px;
+  height: 50px;
+  padding: 15px;
+  text-align:center;
+  border: 1px solid #ddd;
+}
+td:hover {background-color: #99ccff;}
+
+.categorybar {
+  width: 100%;
+  top:0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 56px;
+}
+
+.categorybar a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+  font-size: 15px;
+  color: white;
+  border-bottom: 1px solid rgba(100,100,100,0.3);
+}
+
+.categorybar a:hover {
+  background-color: #000;
+  border: 3px solid rgb(135, 206, 250);
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
+
+.bg-1 {
+   background-color: #1abc9c; /* Green */
+   color: #ffffff;
+ }
+ .bg-2 {
+   background-color: #474e5d; /* Dark Blue */
+   color: #ffffff;
+ }
+ .bg-3 {
+   background-color: #3399ff; /* White */
+   color: #ffffff;
+ }
+ .bg-4 {
+   background-color:  #33bbff; /* sky blue */
+   color: #ffffff;
+ }
+ .bg-5 {
+   background-color:  #666699; /* dark purple */
+   color: #ffffff;
+ }
+ .container-weather {
+   padding-top: 70px;
+   padding-bottom: 70px;
+ }
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+a.card-body {
+  text-decoration: none;
+  color: black;
+}
+
+
+/* Create four equal columns that sits next to each other */
+.column {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+  }
+}

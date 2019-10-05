@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Register</title>
+
+	<!-- CSS -->
+	<link href="styles/bootstrap.min.css" rel="stylesheet">
+	<link href="styles/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<script type = "text/javascript">
+	<!--
+	// The event handler function for password checking
+	function chkPassword(){
+		console.log('ho');
+		var init = document.getElementById("password");
+		var sec = document.getElementById("retypePassword");
+		console.log(init);
+		console.log(sec);
+		if (init.value == "") {
+			alert("You did not enter a password \n" + "Please enter one now");
+			init.focus();
+			return false;
+		}
+		if (init.value != sec.value) {
+			alert("The two passwords you entered are not the same \n" + "Please re-enter both now");
+			init.focus();
+			init.select(); //highlight the text
+			return false;
+		}
+		else return true;
+	}
+	function chkUsername(){
+		var user = document.getElementById("username");
+		if (user.value == ""){
+			alert("You did not enter a username \n" + "Please enter one now");
+			return false;
+		}
+		return true;
+	}
+	function check(){
+		if(chkUsername()==false) return false;
+		if(chkPassword()==false) return false;
+		return true;
+	}
+	// -->
+	</script>
+</head>
+<body>
+	<div class="container">
+		<br>
+		<br>
+		<div class="w3-center">
+			<h1 class="w3-xxlarge"><span class="w3-padding w3-black w3-opacity-min"><b>SG</b></span> <span class="w3-hide-small w3-text-black">Discoverer</span></h1>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col-md-offset-3">
+				<!-- Form for user to input information -->
+				<form class="form-horizontal" id="register" method="post" action="{{url_for('register')}}" onsubmit="return check();">
+					<!-- Textbox for name -->
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Username :</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+						</div>
+					</div>
+					<br>
+					<!-- Textbox for password -->
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Password :</label>
+						<div class="col-sm-5">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+						</div>
+					</div>
+					<br>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Retype Password :</label>
+						<div class="col-sm-5">
+							<input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Retype Password" />
+						</div>
+					</div>
+					<!-- Radio box for food pref-->
+					<br>
+					<!-- Submit button -->
+					<div class="form-actions">
+						<div class="col-sm-offset-3">
+							<button type="submit" name="Submit" id="submitBtn" class="btn btn-primary btn-lg">Register</button>
+						</div>
+					</div>
+					<br/>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
